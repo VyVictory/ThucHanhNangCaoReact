@@ -27,7 +27,7 @@ function App() {
       <Header />
       <HelloFull  />
       <Car/>
-      <Login/>
+      {/* <Login/> */}
     </div>
   );
 }
