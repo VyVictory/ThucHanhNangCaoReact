@@ -1,77 +1,75 @@
+import { useState, useEffect } from "react";
 
 function Item(props) {
     return (
-        <>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href={props.link}>
+        <a className="h-full flex justify-center items-center px-2 border min-w-24" href={props.link}>
+            <font style={{ "vertical-align": "inherit;" }}>
                 <font style={{ "vertical-align": "inherit;" }}>
-                    <font style={{ "vertical-align": "inherit;" }}>
-                        {props.content}
-                    </font>
+                    {props.content}
                 </font>
-            </a>
-        </>
-
-
-    )
+            </font>
+        </a>
+    );
 }
+
 function Menu({ list }) {
-    const listItems =
-        list.map((item, index) => (
-            <Item key={index} link={item.url} content={item.text} />
-        )
-        );
-    return (
-        <ul >
-            {listItems}
-        </ul>
-    )
+    const listItems = list.map((item, index) => (
+        <Item key={index} link={item.url} content={item.text} />
+    ));
 
+    return (
+        <div className="h-full w-full flex">
+            {listItems}
+        </div>
+    );
 }
+
 function Header() {
     const list = [
         { text: "Home", url: "/" },
-        { text: "About", url: "/about" },
-        { text: "Contact", url: "/contact" },
+        // { text: "About", url: "/about" },
+        { text: "Product", url: "/products" },
+        { text: "Groups", url: "/groups" },
+        // { text: "Contact", url: "/contact" },
+        { text: "Profile", url: "/profile" },
     ];
+
+    const [username, setUsername] = useState('');
+
+    useEffect(() => {
+        // Get the username from localStorage when the component mounts
+        const usernameStatus = localStorage.getItem('username');
+        if (usernameStatus) {
+            setUsername(usernameStatus);
+        }
+    }, []);
+
     return (
         <>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                {/* <a class="navbar-brand" href="#">Navbar</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button> */}
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                        {/* <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
-                        </li> */}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><font style={{ "vertical-align": "inherit;" }}><font style={{ "vertical-align": "inherit;" }}>
-                                danh sách trang
-                            </font></font></a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <Menu list={list} />
-                            </div>
-                        </li>
-                        <li className="w-full">
-                            <a href="/login">
-                                <button>Login</button>
+            <nav className="h-16 bg-slate-300 shadow-md w-full">
+                <ul className="flex flex-row h-full">
+                    <Menu list={list} />
+                    <div className="h-full p-2 flex justify-center items-center min-w-24 float-end">
+                        {username ? `Welcome, ${username}` : ""}
+                        {username ? (
+                            <a href="/logout" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded">
+                                <button>
+                                    Logout
+                                </button>
                             </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+                        ) : (
+                            <a href="/login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                                <button>
+                                    Login
+                                </button>
+                            </a>
+                        )}
+                    </div>
+
+                </ul>
+            </nav >
         </>
-
-    )
-
+    );
 }
-export default (Header);
 
+export default Header;

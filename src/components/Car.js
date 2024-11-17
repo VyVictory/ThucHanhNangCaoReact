@@ -30,6 +30,7 @@ function Car() {
                 <input
                     type="number"
                     value={data}
+                    className='border'
                     onInput={(e) => setData(e.target.value)}
                 />
                 <input
